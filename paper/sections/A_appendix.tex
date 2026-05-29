@@ -1,0 +1,38 @@
+\section{Implementation Details}
+
+The experimental code uses UCR text files downloaded from the time-series classification archive. Each series is z-normalized after simple interpolation of missing values. Random convolutional features are generated with kernel lengths 7, 9, and 11, followed by logistic regression. Corruptions are generated only for calibration augmentation and test evaluation; the classifier is not retrained on corrupted samples.
+
+\section{Additional Notes}
+
+The smoothing-proxy experiment is included only as a small practical-cost comparison. It repeats noisy inference eight times per calibration or test example on ECG200, GunPoint, and Coffee, but it is not a full reproduction of conformalized randomized smoothing. The corresponding results are stored in \texttt{results/smoothing\_proxy3\_alpha005\_method\_summary.csv}.
+
+\section{A Stability View of Local Thresholds}
+
+This appendix gives a small conditional stability statement for the local threshold used by \fastcp. It is not a distribution-free validity theorem under shift, and it should not be read as evidence that the fingerprint weights are correct. Its purpose is narrower: if the weighted empirical score CDF already approximates an ideal local score CDF, then the resulting local quantile is stable. The assumption is strong and essentially encodes the desired localization quality.
+
+For a test fingerprint $z$, define the weighted empirical score CDF
+\begin{equation}
+    F_z(t)=
+    \frac{\sum_{i=1}^n w_i(z)\mathbf{1}\{s_i\le t\}}
+    {\sum_{i=1}^n w_i(z)}.
+\end{equation}
+Let $q_z(\alpha)=\inf\{t:F_z(t)\ge 1-\alpha\}$ be the corresponding local weighted quantile. Let $F_\star$ denote an ideal local score CDF for examples from the same perturbation regime, with quantile $q_\star(\alpha)$.
+
+\begin{proposition}[Local quantile stability]
+Suppose $\sup_t |F_z(t)-F_\star(t)|\le \epsilon$. Assume that $F_\star$ has local mass at $q_\star(\alpha)$: there are constants $m>0$ and $r>0$ such that, for every $u$ with $|u-q_\star(\alpha)|\le r$,
+\begin{align}
+    F_\star(u)-F_\star(q_\star(\alpha)) &\ge m(u-q_\star(\alpha)), && u\ge q_\star(\alpha),\\
+    F_\star(q_\star(\alpha))-F_\star(u) &\ge m(q_\star(\alpha)-u), && u\le q_\star(\alpha).
+\end{align}
+If $\epsilon/m\le r$, then
+\begin{equation}
+    |q_z(\alpha)-q_\star(\alpha)|\le \epsilon/m.
+\end{equation}
+For the mixed threshold $q_{\mathrm{mix}}(z)=(1-\lambda)q_z(\alpha)+\lambda q_{\mathrm{global}}(\alpha)$,
+\begin{equation}
+    |q_{\mathrm{mix}}(z)-q_\star(\alpha)|
+    \le (1-\lambda)\epsilon/m+\lambda |q_{\mathrm{global}}(\alpha)-q_\star(\alpha)|.
+\end{equation}
+\end{proposition}
+
+\noindent The proof follows directly from the definition of the quantile and the assumed uniform CDF approximation. If the weighted CDF is within $\epsilon$ of the ideal local CDF, and the ideal CDF is not flat around its target quantile, the weighted quantile cannot move more than $\epsilon/m$ without crossing the target CDF level by more than the allowed CDF error. The second inequality follows by the triangle inequality. This result is best viewed as a diagnostic statement: it identifies the condition under which local weighting would be stable, but it does not prove that the proposed fingerprints satisfy that condition, nor does it replace the standard exchangeability condition required for split-conformal coverage.

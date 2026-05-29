@@ -1,0 +1,24 @@
+{
+  "datasets": [
+    "MoteStrain"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "elapsed_sec": 115.617,
+  "rows": 585,
+  "result_path": "results/ucr35_5seed_alpha005_hardened_motestrain/fastcp_results.csv",
+  "errors_path": null
+}

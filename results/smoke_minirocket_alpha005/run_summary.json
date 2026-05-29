@@ -1,0 +1,20 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint"
+  ],
+  "seeds": [
+    0
+  ],
+  "corruptions": [
+    "gap",
+    "noise"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "elapsed_sec": 0.571,
+  "rows": 120,
+  "result_path": "results/smoke_minirocket_alpha005/fastcp_results.csv",
+  "errors_path": null
+}

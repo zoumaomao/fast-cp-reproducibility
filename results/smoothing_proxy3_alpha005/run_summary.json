@@ -1,0 +1,19 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint",
+    "Coffee"
+  ],
+  "seed": 0,
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alpha": 0.05,
+  "repeats": 8,
+  "smoothing_sigma": 0.05,
+  "elapsed_sec": 140.024,
+  "rows": 81,
+  "result_path": "results/smoothing_proxy3_alpha005/smoothing_proxy_results.csv"
+}

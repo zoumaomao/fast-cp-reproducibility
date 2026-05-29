@@ -1,0 +1,62 @@
+datasets:   0%|          | 0/35 [00:00<?, ?it/s]datasets:   3%|▎         | 1/35 [00:48<27:38, 48.77s/it]datasets:   6%|▌         | 2/35 [01:12<18:38, 33.90s/it]datasets:   9%|▊         | 3/35 [01:33<15:00, 28.15s/it]datasets:  11%|█▏        | 4/35 [01:48<11:53, 23.01s/it]datasets:  14%|█▍        | 5/35 [02:03<10:05, 20.18s/it]datasets:  17%|█▋        | 6/35 [04:11<27:28, 56.85s/it]datasets:  20%|██        | 7/35 [04:27<20:14, 43.37s/it]datasets:  23%|██▎       | 8/35 [04:39<15:04, 33.50s/it]datasets:  26%|██▌       | 9/35 [07:43<34:51, 80.46s/it]datasets:  29%|██▊       | 10/35 [10:46<46:45, 112.23s/it]datasets:  31%|███▏      | 11/35 [13:49<53:27, 133.67s/it]datasets:  34%|███▍      | 12/35 [14:26<39:57, 104.23s/it]datasets:  37%|███▋      | 13/35 [15:28<33:36, 91.66s/it] datasets:  40%|████      | 14/35 [16:05<26:17, 75.13s/it]datasets:  43%|████▎     | 15/35 [16:23<19:18, 57.92s/it]datasets:  46%|████▌     | 16/35 [18:32<25:07, 79.32s/it]datasets:  49%|████▊     | 17/35 [21:05<30:22, 101.24s/it]datasets:  51%|█████▏    | 18/35 [26:10<46:02, 162.47s/it]datasets:  54%|█████▍    | 19/35 [26:45<33:07, 124.23s/it]datasets:  57%|█████▋    | 20/35 [31:59<45:19, 181.28s/it]datasets:  60%|██████    | 21/35 [34:01<38:10, 163.60s/it]datasets:  63%|██████▎   | 22/35 [34:30<26:41, 123.21s/it]datasets:  66%|██████▌   | 23/35 [35:34<21:02, 105.19s/it]datasets:  69%|██████▊   | 24/35 [36:36<16:57, 92.46s/it] datasets:  71%|███████▏  | 25/35 [37:39<13:55, 83.52s/it]datasets:  74%|███████▍  | 26/35 [38:46<11:46, 78.53s/it]datasets:  77%|███████▋  | 27/35 [39:33<09:12, 69.07s/it]datasets:  80%|████████  | 28/35 [40:20<07:16, 62.43s/it]datasets:  83%|████████▎ | 29/35 [40:54<05:23, 53.97s/it]datasets:  86%|████████▌ | 30/35 [41:33<04:07, 49.44s/it]datasets:  89%|████████▊ | 31/35 [43:27<04:35, 68.97s/it]datasets:  91%|█████████▏| 32/35 [44:05<02:58, 59.45s/it]datasets:  94%|█████████▍| 33/35 [45:07<02:00, 60.28s/it]datasets:  97%|█████████▋| 34/35 [45:44<00:53, 53.43s/it]datasets: 100%|██████████| 35/35 [47:43<00:00, 73.01s/it]datasets: 100%|██████████| 35/35 [47:43<00:00, 81.82s/it]
+{
+  "datasets": [
+    "ArrowHead",
+    "BME",
+    "Beef",
+    "BeetleFly",
+    "BirdChicken",
+    "CBF",
+    "Chinatown",
+    "Coffee",
+    "CricketX",
+    "CricketY",
+    "CricketZ",
+    "DistalPhalanxOutlineAgeGroup",
+    "DistalPhalanxOutlineCorrect",
+    "DistalPhalanxTW",
+    "ECG200",
+    "ECGFiveDays",
+    "Earthquakes",
+    "FaceAll",
+    "FaceFour",
+    "FacesUCR",
+    "Fish",
+    "GunPoint",
+    "GunPointAgeSpan",
+    "GunPointMaleVersusFemale",
+    "GunPointOldVersusYoung",
+    "Ham",
+    "Herring",
+    "ItalyPowerDemand",
+    "Lightning7",
+    "Meat",
+    "MedicalImages",
+    "MiddlePhalanxOutlineAgeGroup",
+    "MiddlePhalanxOutlineCorrect",
+    "MiddlePhalanxTW",
+    "MoteStrain"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "backbone": "randomconv",
+  "n_kernels": 64,
+  "minirocket_kernels": 2048,
+  "elapsed_sec": 2863.665,
+  "rows": 25200,
+  "result_path": "results/ucr35valid_5seed_alpha005_rerun_20260529/fastcp_results.csv",
+  "errors_path": null
+}

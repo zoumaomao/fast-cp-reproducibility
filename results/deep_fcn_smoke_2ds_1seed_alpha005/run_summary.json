@@ -1,0 +1,22 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint"
+  ],
+  "seeds": [
+    0
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "backbone": "fcn",
+  "epochs": 3,
+  "elapsed_sec": 3.383,
+  "rows": 72,
+  "result_path": "results/deep_fcn_smoke_2ds_1seed_alpha005/deep_backbone_results.csv"
+}

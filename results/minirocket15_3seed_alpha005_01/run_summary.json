@@ -1,0 +1,40 @@
+{
+  "datasets": [
+    "BME",
+    "Beef",
+    "BeetleFly",
+    "BirdChicken",
+    "Chinatown",
+    "Coffee",
+    "ECG200",
+    "ECGFiveDays",
+    "FaceFour",
+    "GunPoint",
+    "Herring",
+    "ItalyPowerDemand",
+    "Lightning7",
+    "Meat",
+    "MoteStrain"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05,
+    0.1
+  ],
+  "backbone": "minirocket",
+  "n_kernels": 192,
+  "minirocket_kernels": 2048,
+  "elapsed_sec": 21.972,
+  "rows": 8100,
+  "result_path": "results/minirocket15_3seed_alpha005_01/fastcp_results.csv",
+  "errors_path": null
+}

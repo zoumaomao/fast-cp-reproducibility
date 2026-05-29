@@ -1,0 +1,30 @@
+.DS_Store
+
+# Local environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Public benchmark caches are downloaded or supplied separately.
+data/
+
+# LaTeX build artifacts
+paper/*.aux
+paper/*.bbl
+paper/*.blg
+paper/*.fdb_latexmk
+paper/*.fls
+paper/*.log
+paper/*.out
+paper/*.synctex.gz
+paper/*.toc
+
+# Internal paper-editing state
+paper/PAPER_IMPROVEMENT_LOG.md
+paper/PAPER_IMPROVEMENT_STATE.json
+
+# Temporary editor files
+*.swp
+*~

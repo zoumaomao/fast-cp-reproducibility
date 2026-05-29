@@ -1,0 +1,99 @@
+\section{Method}
+
+\subsection{Problem setup}
+
+Let $x\in\R^T$ denote a univariate time series and $y\in\Y$ its class label. A trained classifier produces probabilities $p_\theta(y\mid x)$ over labels. Given calibration examples $\{(x_i,y_i)\}_{i=1}^n$, split conformal classification commonly uses the nonconformity score
+\begin{equation}
+    s(x_i,y_i) = 1 - p_\theta(y_i\mid x_i).
+\end{equation}
+For a target miscoverage level $\alpha$, a global conformal threshold $\qglobal$ is computed as the empirical $(1-\alpha)$ quantile with the usual finite-sample correction. The prediction set for a test input $x$ is
+\begin{equation}
+    \Ccal(x) = \{y\in\Y: 1-p_\theta(y\mid x)\leq \qglobal\}.
+\end{equation}
+
+Under exchangeability between calibration and test examples, this global split-conformal procedure has the standard finite-sample marginal coverage guarantee. Our method keeps the classifier fixed and modifies only the calibration threshold. Under corrupted evaluation inputs, the aim is to expose a practical coverage-efficiency tradeoff rather than to restore distribution-free validity under arbitrary shift.
+
+For evaluation, we report empirical coverage, average prediction-set size, and absolute coverage gap. For a collection of test examples $\mathcal{D}$, the absolute coverage gap is
+\begin{equation}
+    \mathrm{AbsGap}(\mathcal{D}) =
+    \left| (1-\alpha) -
+    \frac{1}{|\mathcal{D}|}\sum_{(x,y)\in\mathcal{D}}\mathbf{1}\{y\in\Ccal(x)\}
+    \right|.
+\end{equation}
+When comparing two methods, an absolute-gap delta is the candidate method's absolute gap minus the baseline method's absolute gap; negative values indicate that the candidate is closer to the nominal target.
+
+\subsection{Perturbation fingerprints}
+
+\fastcp{} represents each time series by a fingerprint $\phifp(x)$ designed to be cheap to compute and interpretable. The current implementation uses missingness, local variation, spectral entropy, lag-one autocorrelation, amplitude drift, peak-to-standard-deviation ratio, top-class confidence, and logit margin. These features are not meant to be a learned representation of the label; they summarize how the input looks from a calibration-risk perspective.
+
+We also use augmented calibration data. For each calibration series, we generate corrupted variants using the same corruption families as evaluation: missing segments, additive sensor noise, and amplitude drift. The classifier is not retrained on these variants; they are used only to populate the calibration score and fingerprint pool.
+
+\subsection{Local weighted conformal threshold}
+
+For a test input $x$, calibration example $i$ receives a similarity weight
+\begin{equation}
+    w_i(x) = \exp\left(-\frac{\|\tilde{\phifp}(x_i)-\tilde{\phifp}(x)\|_2^2}{2h^2}\right),
+\end{equation}
+where $\tilde{\phifp}$ denotes standardized fingerprints and $h$ is set by a median-distance heuristic. The local threshold $\qlocal(x)$ is the weighted empirical $(1-\alpha)$ quantile of calibration nonconformity scores.
+
+In the implementation, scores are sorted increasingly and their nonnegative weights are normalized to sum to one. The weighted quantile is the first sorted score whose cumulative normalized weight is at least $1-\alpha$. Ties are therefore handled by the sorted-score order and the threshold is conservative with respect to the weighted empirical CDF. Unlike the unweighted split-conformal threshold, this weighted threshold does not use the exact finite-sample exchangeability correction because the soft weights are heuristic and test-dependent.
+
+Pure local weighting can produce thresholds that are too aggressive when the local neighborhood is small or noisy. We therefore use a local-global threshold family,
+\begin{equation}
+    \qmix(x) = (1-\lambda)\qlocal(x) + \lambda \qglobal,
+\end{equation}
+where $\lambda\in[0,1]$ controls the local-global tradeoff. $\lambda=0$ recovers purely local \fastcp, while $\lambda=1$ recovers augmented split conformal prediction because the local threshold is ignored.
+
+The final prediction set is
+\begin{equation}
+    \Ccal_{\mathrm{FAST}}(x)=\{y\in\Y: 1-p_\theta(y\mid x)\leq \qmix(x)\}.
+\end{equation}
+
+\subsection{Operating modes}
+
+\fastcp{} is not intended to replace the global conformal threshold in all settings. Instead, it defines a local-global threshold family with two deployment modes.
+
+\paragraph{FAST-CP-Safe / coverage-prioritized mode.}
+This mode selects $\lambda$ by validation under an empirical coverage constraint. If no intermediate $\lambda$ satisfies the target tolerance, the method falls back to $\lambda=1$, which is exactly augmented split conformal prediction on the augmented calibration pool. This mode is intended for settings where coverage is the primary objective and smaller prediction sets are secondary.
+
+\paragraph{FAST-CP-Efficient / Pareto-oriented mode.}
+This mode uses an intermediate $\lambda$ as a Pareto operating point when a small empirical coverage decrease is acceptable in exchange for smaller prediction sets. In the main benchmark we report $\lambda=0.35$ as a fixed Pareto point rather than as an independently validated default. The independent validation experiment in \Cref{fig:lambda_pareto,tab:lambda_tradeoff} is therefore part of the method's deployment logic: it tells the user whether to operate at an intermediate point or revert to the global fallback.
+
+\begin{algorithm}[t]
+\caption{\fastcp{} deployment protocol}
+\label{alg:fastcp}
+\begin{algorithmic}[1]
+\Require Trained classifier $p_\theta$, calibration set, expected corruption families, target $\alpha$, candidate grid $\Lambda$
+\State Construct an augmented calibration pool using expected deployment corruptions.
+\State Compute nonconformity scores and perturbation fingerprints for all calibration variants.
+\State Compute the augmented global threshold $\qglobal$.
+\For{each validation or test input $x$}
+    \State Compute $\phifp(x)$ and the local weighted threshold $\qlocal(x)$.
+    \State Form $\qmix(x)=(1-\lambda)\qlocal(x)+\lambda\qglobal$.
+    \State Output $\Ccal_{\mathrm{FAST}}(x)=\{y:1-p_\theta(y\mid x)\leq \qmix(x)\}$.
+\EndFor
+\Statex
+\State \textbf{Coverage-prioritized use:} choose the smallest-set $\lambda\in\Lambda$ satisfying the validation coverage tolerance; otherwise set $\lambda=1$.
+\State \textbf{Pareto-oriented use:} choose an intermediate $\lambda$ only when the measured coverage cost is acceptable.
+\end{algorithmic}
+\end{algorithm}
+
+\begin{table}[t]
+\centering
+\small
+\caption{Recommended operating regimes for the local-global threshold family.}
+\label{tab:operating_regimes}
+\begin{tabular}{p{0.29\linewidth}p{0.30\linewidth}p{0.32\linewidth}}
+\toprule
+Scenario & Recommended mode & Reason \\
+\midrule
+Coverage-critical deployment & FAST-CP-Safe / Aug SCP fallback & Preserve global augmented calibration \\
+Low-to-moderate corruption & FAST-CP-Efficient & Smaller sets with measured coverage cost \\
+Severe corruption & Global fallback & Both methods are already strained \\
+Limited compute & Post-hoc \fastcp{} layer & No retraining or repeated smoothing inference \\
+Unknown deployment shift & Validate before selecting $\lambda$ & No arbitrary-shift coverage guarantee \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+In practical use, we recommend the following deployment protocol. First, construct an augmented calibration pool using the corruption types expected in the deployment environment. Second, compute perturbation fingerprints and evaluate a small grid of $\lambda$ values on a validation split. Third, if empirical coverage is a hard requirement, select the smallest-set $\lambda$ satisfying the coverage tolerance; otherwise use an intermediate $\lambda$ as a Pareto-efficient operating point. Finally, monitor undercoverage and fall back to the global augmented threshold when corruption severity increases or validation coverage becomes unstable.

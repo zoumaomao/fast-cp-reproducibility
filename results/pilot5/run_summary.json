@@ -1,0 +1,24 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint",
+    "ItalyPowerDemand",
+    "TwoLeadECG",
+    "Coffee"
+  ],
+  "seeds": [
+    0
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.1,
+    0.05
+  ],
+  "elapsed_sec": 85.159,
+  "rows": 450,
+  "result_path": "results/pilot5/fastcp_results.csv"
+}

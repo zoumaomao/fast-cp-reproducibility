@@ -1,0 +1,24 @@
+{
+  "datasets": [
+    "BasicMotions",
+    "Epilepsy",
+    "NATOPS"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "n_kernels_per_channel": 24,
+  "elapsed_sec": 134.235,
+  "rows": 486,
+  "result_path": "results/uea_external_3ds_3seed_alpha005/fastcp_uea_results.csv"
+}

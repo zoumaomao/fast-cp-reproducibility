@@ -1,0 +1,61 @@
+{
+  "datasets": [
+    "ArrowHead",
+    "BME",
+    "Beef",
+    "BeetleFly",
+    "BirdChicken",
+    "CBF",
+    "Chinatown",
+    "Coffee",
+    "CricketX",
+    "CricketY",
+    "CricketZ",
+    "DistalPhalanxOutlineAgeGroup",
+    "DistalPhalanxOutlineCorrect",
+    "DistalPhalanxTW",
+    "ECG200",
+    "ECGFiveDays",
+    "Earthquakes",
+    "FaceAll",
+    "FaceFour",
+    "FacesUCR",
+    "Fish",
+    "GunPoint",
+    "GunPointAgeSpan",
+    "GunPointMaleVersusFemale",
+    "GunPointOldVersusYoung",
+    "Ham",
+    "Herring",
+    "ItalyPowerDemand",
+    "Lightning7",
+    "Meat",
+    "MedicalImages",
+    "MiddlePhalanxOutlineAgeGroup",
+    "MiddlePhalanxOutlineCorrect",
+    "MiddlePhalanxTW",
+    "MoteStrain"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "backbone": "randomconv",
+  "n_kernels": 64,
+  "minirocket_kernels": 2048,
+  "elapsed_sec": 2863.665,
+  "rows": 25200,
+  "result_path": "results/ucr35valid_5seed_alpha005_rerun_20260529/fastcp_results.csv",
+  "errors_path": null
+}

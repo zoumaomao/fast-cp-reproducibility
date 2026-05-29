@@ -1,0 +1,29 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint",
+    "Coffee",
+    "BME",
+    "FaceFour",
+    "ItalyPowerDemand",
+    "MoteStrain",
+    "Beef"
+  ],
+  "seeds": [
+    0,
+    1
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "backbone": "fcn",
+  "epochs": 20,
+  "elapsed_sec": 45.774,
+  "rows": 576,
+  "result_path": "results/deep_fcn8_2seed_alpha005/deep_backbone_results.csv"
+}

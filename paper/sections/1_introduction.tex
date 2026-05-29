@@ -1,0 +1,32 @@
+\section{Introduction}
+
+Time-series classifiers are often evaluated on clean benchmark splits, but deployed sensors and monitoring systems rarely provide such inputs. Gaps, local noise, amplitude drift, and other benign corruptions can change the reliability of a classifier even when the target label remains meaningful. For applications that need uncertainty estimates rather than only top-1 predictions, this creates a practical problem: prediction sets should remain informative under corruptions, but should not grow so large that they lose decision value.
+
+Conformal prediction provides a simple and model-agnostic way to convert classifier scores into prediction sets with finite-sample coverage guarantees under exchangeability \citep{vovk2005algorithmic,angelopoulos2021gentle}. Recent work has studied conformal prediction for out-of-distribution time-series classification \citep{nanopoulos2025conformal} and robust time-series classification with conformalized randomized smoothing \citep{franco2024guaranteeing}. These approaches highlight the same tension: robustness and coverage are valuable, but repeated smoothing inference or overly conservative global calibration may be unattractive when experiments and deployment must run on commodity hardware.
+
+We study a smaller but practical question: can cheap descriptors of input perturbations expose a useful and controllable coverage-efficiency tradeoff for corrupted time-series conformal prediction? We answer this question with \fastcp, a post-hoc conformal prediction framework for time-series classification. \fastcp{} computes a perturbation fingerprint from each time series, including missingness, local variation, spectral entropy, autocorrelation, amplitude drift, and classifier confidence features. At test time, calibration examples with similar fingerprints receive larger weights when estimating a local conformal threshold. The local threshold is then mixed with an augmented global threshold, allowing the same framework to operate either as a coverage-prioritized global fallback or as a Pareto-oriented efficient mode.
+
+We focus on three practical questions:
+\begin{enumerate}
+    \item[\textbf{RQ1}] Can perturbation-aware local weighting reduce conformal prediction-set size under common time-series corruptions?
+    \item[\textbf{RQ2}] How large is the empirical coverage cost, and when should the method fall back to global augmented calibration?
+    \item[\textbf{RQ3}] Is the method lightweight enough to be evaluated and deployed on commodity hardware?
+\end{enumerate}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.95\linewidth]{figures/fig1_method_drawio_cropped.pdf}
+    \caption{Overview of \fastcp. A test time series is passed through a compact classifier and a perturbation-fingerprint extractor. Calibration examples with similar fingerprints define a local weighted conformal threshold, which is mixed with a global augmented threshold to form the final prediction set.}
+    \label{fig:method}
+\end{figure}
+
+Our contributions are:
+\begin{enumerate}
+    \item We introduce a lightweight post-hoc conformal prediction framework for corrupted time-series classification, which adapts thresholds using interpretable perturbation fingerprints without retraining the base classifier.
+    \item We define a two-mode operating protocol that distinguishes coverage-prioritized deployment from Pareto-oriented efficient deployment. The former can fall back to augmented split conformal prediction, while the latter explicitly trades small empirical coverage loss for smaller prediction sets.
+    \item We provide a systematic corrupted time-series benchmark over 35 UCR datasets, five random seeds, three corruption families, and multiple baselines including APS, RAPS, confidence-weighted CP, and Mondrian CP.
+    \item We add external and backbone robustness checks on UEA multivariate datasets, MiniROCKET, and FCN classifiers, showing that the observed tradeoff is not limited to the compact random-convolution backbone.
+    \item We report practical runtime and reproducibility evidence showing that the full benchmark and ablations can be completed under modest compute.
+\end{enumerate}
+
+The scope is deliberately practical. \fastcp{} is not a new distribution-shift validity theorem; it is a reproducible Pareto calibration layer for corrupted time-series benchmarks, where the main question is whether a transparent post-hoc tradeoff is useful under modest compute.

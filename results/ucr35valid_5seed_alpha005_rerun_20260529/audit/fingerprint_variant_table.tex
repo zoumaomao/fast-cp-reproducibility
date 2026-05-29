@@ -1,0 +1,16 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrr}
+\toprule
+variant & coverage & avg set size & abs gap & coverage delta vs aug & set size reduction vs aug \\
+\midrule
+Random fingerprint & 0.9440 & 2.3681 & 0.0489 & -0.0061 & 0.0504 \\
+Input-only & 0.9387 & 2.2820 & 0.0474 & -0.0114 & 0.1365 \\
+Confidence-only & 0.9494 & 2.3921 & 0.0443 & -0.0008 & 0.0263 \\
+FAST-CP-efficient & 0.9448 & 2.3254 & 0.0455 & -0.0053 & 0.0931 \\
+\bottomrule
+\end{tabular}
+\caption{Fingerprint contribution audit under the same mixed-threshold framework.}
+\label{tab:fingerprint_variants}
+\end{table}

@@ -1,0 +1,20 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint"
+  ],
+  "seeds": [
+    0
+  ],
+  "corruptions": [
+    "gap",
+    "noise"
+  ],
+  "alphas": [
+    0.1,
+    0.05
+  ],
+  "elapsed_sec": 11.595,
+  "rows": 120,
+  "result_path": "results/smoke/fastcp_results.csv"
+}

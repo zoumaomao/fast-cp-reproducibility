@@ -1,0 +1,24 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint",
+    "ItalyPowerDemand",
+    "TwoLeadECG",
+    "Coffee"
+  ],
+  "seeds": [
+    0
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "elapsed_sec": 60.487,
+  "rows": 495,
+  "result_path": "results/mix_ablation5_alpha005/fastcp_results.csv",
+  "errors_path": null
+}

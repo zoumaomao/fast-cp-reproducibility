@@ -1,0 +1,33 @@
+{
+  "datasets": [
+    "ArrowHead",
+    "CBF",
+    "CricketX",
+    "Earthquakes",
+    "FaceAll",
+    "Fish",
+    "GunPointAgeSpan",
+    "Ham",
+    "MedicalImages",
+    "MiddlePhalanxTW"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05,
+    0.1,
+    0.2
+  ],
+  "elapsed_sec": 838.515,
+  "rows": 12960,
+  "result_path": "results/lambda_tuning_10ds_3seed_alpha005_01_02/fastcp_results.csv",
+  "errors_path": null
+}

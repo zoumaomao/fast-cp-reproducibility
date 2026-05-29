@@ -1,0 +1,22 @@
+\section{Runtime and Practical Analysis}
+
+\begin{figure}[t]
+    \centering
+    \includegraphics[width=0.62\linewidth]{figures/fig5_runtime.pdf}
+    \caption{Runtime of the main and ablation experiments on Apple M4 16 GB.}
+    \label{fig:runtime}
+\end{figure}
+
+\input{runtime_summary}
+
+\Cref{fig:runtime} and \Cref{tab:runtime_summary} report wall-clock runtime on Apple M4 16 GB. The 35-dataset, five-seed benchmark with fingerprint-control ablations completes in 2863.67 seconds, or 47.7 minutes, including APS/RAPS, Mondrian, random-fingerprint, input-only, and confidence-only baselines. The average runtime is 16.4 seconds per dataset-seed pair. The independent alpha/lambda tuning sweep completes in 838.52 seconds, and the 25-dataset held-out alpha/lambda evaluation completes in 1190.63 seconds. These timings include dataset loading, feature extraction, classifier fitting, corruption generation, and conformal evaluation.
+
+The runtime profile supports the intended compute regime: the method can be evaluated end-to-end on commodity hardware rather than a dedicated GPU server. The main bottlenecks are random convolution feature extraction and repeated local weighted-threshold computation. This is acceptable for the small-to-medium UCR subset used here, but scaling to much larger datasets requires caching, vectorized feature extraction, or approximate nearest-neighbor weighting.
+
+The practical lesson is that \fastcp{} is best viewed as a post-hoc calibration layer. Once classifier probabilities and fingerprints are cached, the conformal baselines and local-global threshold variants are fast to recompute. This makes ablations over $\lambda$ and corruption families cheap relative to training new neural architectures.
+
+\paragraph{Reproducibility artifacts.}
+All experiment scripts save raw per-cell results and aggregated summaries as CSV files. The project manifest and experiment log record commands, runtimes, output paths, and date-stamped updates, so the reported tables can be regenerated from saved artifacts.
+
+\paragraph{Smoothing-proxy comparison.}
+To quantify the cost of repeated transformed inference, we also ran a small smoothing-proxy baseline on ECG200, GunPoint, and Coffee with eight noisy evaluations per calibration or test example. This proxy obtains similar mean coverage to the mixed FAST-CP setting (0.9732 versus 0.9717), but its average prediction-set size is larger (1.4495 versus 1.2853). It also adds 11.8 seconds of repeated-inference overhead per corruption/severity evaluation cell in this small benchmark. While this is not a full reproduction of conformalized randomized smoothing, it supports the practical motivation for a post-hoc fingerprint method when compute is limited.

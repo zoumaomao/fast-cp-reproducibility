@@ -1,0 +1,24 @@
+\begin{table}[t]
+\centering
+\small
+\begin{tabular}{lrrrrrrrr}
+\toprule
+method & corruption & n cells & mean coverage & rate below target & rate below target minus 1pp & rate below target minus 2pp & p10 coverage & min coverage \\
+\midrule
+Aug SCP / FAST-CP-safe & \_\_overall\_\_ & 1575 & 0.9501 & 0.3283 & 0.2698 & 0.2222 & 0.8777 & 0.4629 \\
+Aug SCP / FAST-CP-safe & drift & 525 & 0.9651 & 0.2610 & 0.1886 & 0.1505 & 0.9178 & 0.5314 \\
+Aug SCP / FAST-CP-safe & gap & 525 & 0.9437 & 0.3752 & 0.3352 & 0.2781 & 0.8482 & 0.6333 \\
+Aug SCP / FAST-CP-safe & noise & 525 & 0.9415 & 0.3486 & 0.2857 & 0.2381 & 0.8636 & 0.4629 \\
+FAST-CP-efficient & \_\_overall\_\_ & 1575 & 0.9448 & 0.3905 & 0.3111 & 0.2565 & 0.8699 & 0.5029 \\
+FAST-CP-efficient & drift & 525 & 0.9564 & 0.3448 & 0.2495 & 0.1886 & 0.9039 & 0.5314 \\
+FAST-CP-efficient & gap & 525 & 0.9382 & 0.4324 & 0.3695 & 0.3124 & 0.8411 & 0.6333 \\
+FAST-CP-efficient & noise & 525 & 0.9398 & 0.3943 & 0.3143 & 0.2686 & 0.8606 & 0.5029 \\
+Confidence-only & \_\_overall\_\_ & 1575 & 0.9494 & 0.3283 & 0.2660 & 0.2121 & 0.8847 & 0.4971 \\
+Confidence-only & drift & 525 & 0.9637 & 0.2533 & 0.1848 & 0.1410 & 0.9200 & 0.5314 \\
+Confidence-only & gap & 525 & 0.9439 & 0.3943 & 0.3314 & 0.2629 & 0.8522 & 0.6333 \\
+Confidence-only & noise & 525 & 0.9405 & 0.3371 & 0.2819 & 0.2324 & 0.8536 & 0.4971 \\
+\bottomrule
+\end{tabular}
+\caption{Undercoverage tail-risk audit on the rerun benchmark. Rates are fractions of dataset/seed/corruption/severity evaluation cells.}
+\label{tab:tail_risk}
+\end{table}

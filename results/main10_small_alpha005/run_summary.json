@@ -1,0 +1,29 @@
+{
+  "datasets": [
+    "ECG200",
+    "GunPoint",
+    "ItalyPowerDemand",
+    "TwoLeadECG",
+    "Coffee",
+    "Beef",
+    "Plane",
+    "FaceFour",
+    "Lightning2",
+    "Lightning7"
+  ],
+  "seeds": [
+    0
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "elapsed_sec": 116.603,
+  "rows": 540,
+  "result_path": "results/main10_small_alpha005/fastcp_results.csv",
+  "errors_path": null
+}

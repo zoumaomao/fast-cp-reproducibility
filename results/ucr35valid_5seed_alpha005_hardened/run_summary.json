@@ -1,0 +1,63 @@
+{
+  "datasets": [
+    "ArrowHead",
+    "BME",
+    "Beef",
+    "BeetleFly",
+    "BirdChicken",
+    "CBF",
+    "Chinatown",
+    "Coffee",
+    "CricketX",
+    "CricketY",
+    "CricketZ",
+    "DistalPhalanxOutlineAgeGroup",
+    "DistalPhalanxOutlineCorrect",
+    "DistalPhalanxTW",
+    "ECG200",
+    "ECGFiveDays",
+    "Earthquakes",
+    "FaceAll",
+    "FaceFour",
+    "FacesUCR",
+    "Fish",
+    "GunPoint",
+    "GunPointAgeSpan",
+    "GunPointMaleVersusFemale",
+    "GunPointOldVersusYoung",
+    "Ham",
+    "Herring",
+    "ItalyPowerDemand",
+    "Lightning7",
+    "Meat",
+    "MedicalImages",
+    "MiddlePhalanxOutlineAgeGroup",
+    "MiddlePhalanxOutlineCorrect",
+    "MiddlePhalanxTW",
+    "MoteStrain"
+  ],
+  "n_datasets": 35,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "corruptions": [
+    "drift",
+    "gap",
+    "noise"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "rows": 20475,
+  "source_results": [
+    "results/ucr35_5seed_alpha005_hardened/fastcp_results.csv",
+    "results/ucr35_5seed_alpha005_hardened_motestrain/fastcp_results.csv"
+  ],
+  "elapsed_sec": 2731.609,
+  "result_path": "results/ucr35valid_5seed_alpha005_hardened/fastcp_results.csv",
+  "notes": "Combined 34 valid datasets from the main 35-run with MoteStrain replacing DiatomSizeReduction, which failed because one split lacked a training class."
+}
