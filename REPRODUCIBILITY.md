@@ -40,7 +40,7 @@ The full 35-dataset, five-seed UCR benchmark with control ablations completed in
 
 ## Submission Artifact Recommendation
 
-For anonymous review, provide an anonymous repository or archive containing:
+For journal submission, provide a code repository or supplementary archive containing:
 
 - `experiments/`
 - `paper/`
@@ -52,4 +52,4 @@ For anonymous review, provide an anonymous repository or archive containing:
 - public data access instructions or cached public benchmark files if permitted
 - saved CSV/JSON/Markdown outputs under `results/`
 
-Remove local machine paths and author-identifying metadata before upload.
+Remove local machine paths and temporary build metadata before upload.

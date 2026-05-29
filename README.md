@@ -13,7 +13,7 @@ The experiments use public benchmark data:
 - UCR univariate time-series archive, accessed through `aeon` dataset loaders or cached under `data/raw/`.
 - UEA multivariate archive, accessed through `aeon` dataset loaders or cached under `data/uea/`.
 
-No private data are required. If local cached files are absent, the scripts attempt to download the public datasets through the configured `aeon` loaders. For anonymous review, include either the cached `data/` directory or clear network-enabled dataset download instructions with this repository.
+No private data are required. If local cached files are absent, the scripts attempt to download the public datasets through the configured `aeon` loaders. For submission, provide either the cached public benchmark files if allowed by the submission system or clear network-enabled dataset download instructions with this repository.
 
 ## Environment
 
@@ -149,9 +149,9 @@ The compiled manuscript is written to `paper/main.pdf`.
 
 See `CODE_AND_DATA_AVAILABILITY.md` for a concise statement of the released code, public data sources, saved result files, and reproduction entry points.
 
-## Anonymous Submission Checklist
+## Submission Package Checklist
 
-For Pattern Analysis and Applications, prepare an anonymous code repository or archive containing:
+For Pattern Analysis and Applications, prepare a code repository or supplementary archive containing:
 
 - Source code in `experiments/`.
 - Public data access instructions, or cached public UCR/UEA files if allowed by the submission system.
@@ -159,4 +159,4 @@ For Pattern Analysis and Applications, prepare an anonymous code repository or a
 - Generated paper figures under `paper/figures/`.
 - This `README.md`, `MANIFEST.md`, and `EXPERIMENT_LOG.md`.
 
-Before submission, remove local machine paths and any non-anonymous metadata from the archive.
+Before submission, remove local machine paths and temporary build metadata from the archive.

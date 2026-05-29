@@ -135,7 +135,7 @@ Generated on 2026-05-28 for the research-pipeline request.
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/stats_vs_mixed_confidence_only.csv` | Paired statistical tests for FAST-CP-efficient versus confidence-only mixed weighting. |
 | `figures/paper/fig7_coverage_delta_tail.pdf` | Paper figure: coverage-delta tail distribution for the expanded benchmark. |
 | `paper/figures/fig7_coverage_delta_tail.pdf` | Manuscript copy of the coverage-delta tail figure. |
-| `README.md` | Reproducibility package README with setup, public data access, experiment commands, saved result paths, and anonymous submission checklist. |
+| `README.md` | Reproducibility package README with setup, public data access, experiment commands, saved result paths, and submission package checklist. |
 | `REPRODUCIBILITY.md` | Concise reproducibility statement for code, data, saved outputs, hardware, and submission artifacts. |
 | `results/uea_external_3ds_3seed_alpha005/fastcp_uea_results.csv` | Raw external UEA multivariate validation results on BasicMotions, Epilepsy, and NATOPS. |
 | `results/uea_external_3ds_3seed_alpha005/summary.csv` | Aggregated UEA multivariate validation metrics. |

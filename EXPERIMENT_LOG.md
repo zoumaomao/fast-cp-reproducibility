@@ -43,7 +43,7 @@ Changes:
 
 - Updated the title to: "FAST-CP: A Lightweight Perturbation-Aware Conformal Prediction Framework for Corrupted Time-Series Classification".
 - Rewrote the abstract around corrupted time-series classification, lightweight post-hoc uncertainty calibration, practical coverage-efficiency tradeoff, reproducible benchmarking, and limited compute.
-- Added `README.md` with setup, public UCR/UEA data access, reproduction commands, saved CSV result locations, and anonymous submission checklist.
+- Added `README.md` with setup, public UCR/UEA data access, reproduction commands, saved CSV result locations, and submission package checklist.
 - Added `REPRODUCIBILITY.md` with a concise code/data/results/hardware statement for submission materials.
 - Added TensorFlow to `requirements.txt` for the FCN backbone check.
 
