@@ -28,6 +28,8 @@ def corrupt_batch(x: np.ndarray, kind: str, severity: float, rng: np.random.Gene
         return _noise(x, severity, rng)
     if kind == "drift":
         return _drift(x, severity, rng)
+    if kind == "mixed":
+        return _mixed(x, severity, rng)
     if kind == "warp":
         return _warp(x, severity, rng)
     raise ValueError(f"Unknown corruption kind: {kind}")
@@ -57,6 +59,13 @@ def _drift(x: np.ndarray, severity: float, rng: np.random.Generator) -> np.ndarr
     return (x * drift).astype(np.float32)
 
 
+def _mixed(x: np.ndarray, severity: float, rng: np.random.Generator) -> np.ndarray:
+    out = _gap(x, severity, rng)
+    out = _noise(out, severity, rng)
+    drift_severity = min(0.40, 2.0 * severity)
+    return _drift(out, drift_severity, rng)
+
+
 def _warp(x: np.ndarray, severity: float, rng: np.random.Generator) -> np.ndarray:
     out = np.empty_like(x, dtype=np.float32)
     length = x.shape[1]
@@ -75,4 +84,3 @@ def _warp(x: np.ndarray, severity: float, rng: np.random.Generator) -> np.ndarra
         target = np.interp(src, warped, anchors)
         out[i] = np.interp(target, src, row).astype(np.float32)
     return out
-

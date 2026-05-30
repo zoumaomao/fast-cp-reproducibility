@@ -2,6 +2,54 @@
 
 This log records experiment updates, commands, result summaries, and output locations.
 
+## 2026-05-31
+
+### Mismatched corruption stress test and dataset-level bootstrap - completed
+
+Purpose:
+
+- Test a less favorable deployment setting where calibration augmentation does not include all test-time corruptions.
+- Reduce reliance on 1575 dataset/seed/corruption/severity cells by adding dataset-level block bootstrap.
+- Clarify why the full fingerprint is a practical balanced regime rather than an always-dominant feature set.
+
+Changes:
+
+- Added `--calib-corruptions` and `--test-corruptions` to `experiments/run_fastcp_pilot.py`.
+- Added a `mixed` corruption family that sequentially applies gap, noise, and drift.
+- Added `experiments/dataset_block_bootstrap.py`.
+- Updated the manuscript with a mismatched corruption stress-test table, dataset-level bootstrap interpretation, and stronger fingerprint-ablation discussion.
+
+Command:
+
+```bash
+.venv/bin/python -m experiments.run_fastcp_pilot \
+  --datasets ArrowHead CBF CricketX Earthquakes FaceAll Fish GunPointAgeSpan Ham MedicalImages MiddlePhalanxTW \
+  --seeds 0 1 2 \
+  --corruptions gap noise drift mixed \
+  --calib-corruptions gap noise \
+  --test-corruptions drift mixed \
+  --alphas 0.05 \
+  --n-kernels 64 \
+  --fastcp-global-mix 0.35 \
+  --fingerprint-ablations confidence_only random_fingerprint \
+  --continue-on-error \
+  --out-dir results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005
+```
+
+Results:
+
+- Mismatch run completed in 451.8 seconds with no dataset failures.
+- Calibration augmentation used gap/noise only; test evaluation used drift/mixed corruptions.
+- Overall mismatch comparison: augmented split CP coverage 0.9259, FAST-CP-efficient coverage 0.9211, coverage delta -0.0048, set-size reduction 0.0936 labels.
+- Dataset-level block bootstrap on the main 35-dataset benchmark: set-size reduction 0.0931 labels with 95% CI [0.0646, 0.1236]; coverage delta -0.0053 with 95% CI [-0.0086, -0.0025].
+
+Output files:
+
+- `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/fastcp_results.csv`
+- `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/mismatch_summary_vs_aug.csv`
+- `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/dataset_block_bootstrap_vs_aug.csv`
+- `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/dataset_block_bootstrap_vs_aug.csv`
+
 ## 2026-05-29
 
 ### Reference metadata cleanup - completed

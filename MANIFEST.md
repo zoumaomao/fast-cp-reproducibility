@@ -130,6 +130,7 @@ Generated on 2026-05-28 for the research-pipeline request.
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/worst_coverage_drops.csv` | Worst ten coverage drops of FAST-CP-efficient relative to augmented split CP. |
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/severity_summary.csv` | Severity-level coverage, set-size, and absolute-gap summary. |
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/fingerprint_variant_table.csv` | Same-framework fingerprint control table: random, input-only, confidence-only, and full fingerprint. |
+| `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/dataset_block_bootstrap_vs_aug.csv` | Dataset-level block bootstrap for FAST-CP-efficient versus augmented split CP, using datasets as resampling units. |
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/stats_vs_aug.csv` | Paired statistical tests for FAST-CP-efficient versus augmented split CP on the expanded benchmark. |
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/stats_vs_random_fingerprint.csv` | Paired statistical tests for FAST-CP-efficient versus random-fingerprint control. |
 | `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/stats_vs_mixed_confidence_only.csv` | Paired statistical tests for FAST-CP-efficient versus confidence-only mixed weighting. |
@@ -149,3 +150,6 @@ Generated on 2026-05-28 for the research-pipeline request.
 | `results/deep_fcn8_2seed_alpha005/fcn_vs_aug_stats.csv` | Bootstrap interval summary for the FCN backbone check. |
 | `results/deep_fcn8_2seed_alpha005/FCN_BACKBONE_REPORT.md` | Human-readable FCN backbone check report. |
 | `results/deep_fcn8_2seed_alpha005/run_summary.json` | Runtime and metadata for the FCN backbone check. |
+| `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/fastcp_results.csv` | Mismatched corruption stress test with gap/noise calibration augmentation and drift/mixed test corruptions. |
+| `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/mismatch_summary_vs_aug.csv` | Aggregated mismatch comparison of FAST-CP-efficient against augmented split CP. |
+| `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/dataset_block_bootstrap_vs_aug.csv` | Dataset-level block bootstrap for the mismatch stress test. |

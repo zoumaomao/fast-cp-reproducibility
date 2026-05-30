@@ -8,6 +8,7 @@ All experiment code is in `experiments/`. The main entry points are:
 
 - `experiments/run_fastcp_pilot.py`: UCR benchmark, baselines, fingerprint ablations, and lambda-grid runs.
 - `experiments/reviewer_audit_tables.py`: main tables, tail-risk audit, severity table, fingerprint-control table, and paper figures.
+- `experiments/dataset_block_bootstrap.py`: dataset-level block bootstrap with each dataset as the resampling unit.
 - `experiments/run_external_uea_validation.py`: UEA multivariate validation.
 - `experiments/run_deep_backbone_check.py`: FCN backbone check.
 - `experiments/select_lambda.py`: coverage-prioritized lambda selection and global fallback protocol.
@@ -27,6 +28,8 @@ The main reported results can be inspected without rerunning all experiments:
 
 - `results/ucr35valid_5seed_alpha005_rerun_20260529/fastcp_results.csv`
 - `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/REVIEWER_AUDIT_REPORT.md`
+- `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/dataset_block_bootstrap_vs_aug.csv`
+- `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/mismatch_summary_vs_aug.csv`
 - `results/lambda_eval_25ds_3seed_alpha005_01_02_tradeoff_table.csv`
 - `results/uea_external_3ds_3seed_alpha005/fastcp_vs_aug.csv`
 - `results/deep_fcn8_2seed_alpha005/fcn_vs_aug_stats.csv`

@@ -67,6 +67,17 @@ Generate the audit tables and paper figures:
   --paper-fig-dir paper/figures
 ```
 
+Dataset-level block bootstrap for the main paired comparison:
+
+```bash
+.venv/bin/python -m experiments.dataset_block_bootstrap \
+  --input results/ucr35valid_5seed_alpha005_rerun_20260529/fastcp_results.csv \
+  --candidate fast_cp_mixed \
+  --baseline aug_split_cp \
+  --out-csv results/ucr35valid_5seed_alpha005_rerun_20260529/audit/dataset_block_bootstrap_vs_aug.csv \
+  --out-md results/ucr35valid_5seed_alpha005_rerun_20260529/audit/DATASET_BLOCK_BOOTSTRAP.md
+```
+
 ## Lambda Validation
 
 The safe fallback and Pareto operating-point analysis uses a fixed tuning/evaluation protocol.
@@ -118,6 +129,25 @@ FCN backbone check:
   --out-dir results/deep_fcn8_2seed_alpha005
 ```
 
+## Mismatched Corruption Stress Test
+
+This stress test evaluates deployment mismatch by augmenting calibration with gap/noise variants while testing on drift and mixed corruptions.
+
+```bash
+.venv/bin/python -m experiments.run_fastcp_pilot \
+  --datasets ArrowHead CBF CricketX Earthquakes FaceAll Fish GunPointAgeSpan Ham MedicalImages MiddlePhalanxTW \
+  --seeds 0 1 2 \
+  --corruptions gap noise drift mixed \
+  --calib-corruptions gap noise \
+  --test-corruptions drift mixed \
+  --alphas 0.05 \
+  --n-kernels 64 \
+  --fastcp-global-mix 0.35 \
+  --fingerprint-ablations confidence_only random_fingerprint \
+  --continue-on-error \
+  --out-dir results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005
+```
+
 ## Saved Results
 
 The main paper tables and checks are backed by these files:
@@ -128,6 +158,9 @@ The main paper tables and checks are backed by these files:
 - `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/tail_risk_table.csv`
 - `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/severity_summary.csv`
 - `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/fingerprint_variant_table.csv`
+- `results/ucr35valid_5seed_alpha005_rerun_20260529/audit/dataset_block_bootstrap_vs_aug.csv`
+- `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/mismatch_summary_vs_aug.csv`
+- `results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/dataset_block_bootstrap_vs_aug.csv`
 - `results/lambda_eval_25ds_3seed_alpha005_01_02_tradeoff_table.csv`
 - `results/uea_external_3ds_3seed_alpha005/fastcp_vs_aug.csv`
 - `results/minirocket15_3seed_alpha005_01_fastcp035_vs_aug.csv`

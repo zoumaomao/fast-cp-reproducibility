@@ -97,6 +97,28 @@ High & 0.9058 & 0.9007 & -0.0052 & 0.0661 \\
 
 \Cref{tab:severity_summary} shows that severe corruptions are difficult for both methods: augmented split conformal prediction already falls to 0.9058 mean coverage at the high severity level. The FAST-CP coverage drop remains on the same order across severities, while the set-size reduction becomes smaller under high severity. The practical use case of \fastcp{}-efficient is therefore low-to-moderate corruption, where the global threshold is not already severely strained. Under severe corruptions, users should prefer validation-selected global fallback behavior.
 
+\subsection{Mismatched corruption stress test}
+
+The main benchmark augments calibration with the same corruption families used at evaluation time. To test a less favorable deployment setting, we run a mismatched stress test on 10 representative UCR datasets with three seeds. The augmented calibration pool contains only gap and noise variants, while test inputs are evaluated under drift and mixed corruptions. The mixed corruption applies a missing segment, additive noise, and amplitude drift sequentially. This experiment is intentionally a stress test rather than a new validity claim: it asks whether the local-global threshold family remains useful when the calibration corruption menu is incomplete.
+
+\begin{table}[t]
+\centering
+\small
+\caption{Mismatched corruption stress test. Calibration augmentation uses gap and noise only; test inputs use drift or mixed corruptions. Values compare \fastcp{}-efficient with augmented split conformal prediction across 180 dataset/seed/corruption/severity cells.}
+\label{tab:mismatch_corruption}
+\begin{tabular}{lrrrr}
+\toprule
+Test corruption & Aug cov. & FAST cov. & Cov. delta & Set reduction \\
+\midrule
+Drift & 0.9549 & 0.9492 & -0.0057 & 0.1252 \\
+Mixed & 0.8969 & 0.8929 & -0.0040 & 0.0620 \\
+Overall & 0.9259 & 0.9211 & -0.0048 & 0.0936 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\Cref{tab:mismatch_corruption} shows that the efficiency trend persists under mismatch, but the operating boundary becomes clearer. On drift, where the global augmented threshold remains near nominal coverage, \fastcp{}-efficient reduces set size by 0.1252 labels while decreasing coverage by 0.57 percentage points. On mixed corruptions, both methods under-cover substantially, with augmented split conformal prediction at 0.8969 coverage and \fastcp{}-efficient at 0.8929. The correct interpretation is therefore not that \fastcp{} solves unseen corruptions; rather, mismatch should trigger validation and possible global fallback, especially when the global threshold itself is already below target.
+
 \subsection{External multivariate validation}
 
 To reduce dependence on univariate UCR evidence, we add a small external validation on three UEA multivariate datasets: BasicMotions, Epilepsy, and NATOPS. These datasets contain real multichannel sensor or motion signals; we evaluate them under synthetic gap, noise, and drift stress tests. The run uses three seeds, $\alpha=0.05$, 24 random convolution kernels per channel, and the same augmented calibration pool and $\lambda=0.35$ mixed threshold.
@@ -202,7 +224,9 @@ At the dataset/seed/corruption/severity level, \fastcp{}-efficient obtains a set
 
 \subsection{Statistical tests and stronger baselines}
 
-Paired tests over 1575 evaluation cells confirm that the set-size reduction against augmented split conformal prediction is statistically significant: the overall mean reduction is 0.0931 labels with a 95\% bootstrap confidence interval of [0.0856, 0.1007], and the Wilcoxon test gives $p<10^{-100}$. However, the same paired analysis shows a significant mean coverage decrease of -0.0053. Against APS and RAPS, \fastcp{}-efficient produces much smaller sets, but with larger coverage drops; these baselines are more conservative on this benchmark. Against the corruption-family Mondrian baseline, \fastcp{}-efficient has smaller sets overall but worse coverage and absolute-gap behavior under gap and noise. This comparison makes the tradeoff explicit: the method is efficient, but not uniformly dominant.
+To avoid over-emphasizing the 1575 evaluation cells as if they were independent datasets, we also report a dataset-level block bootstrap. Each dataset is first averaged over seeds, corruptions, and severities, and the bootstrap resamples datasets. Under this more conservative summary, \fastcp{}-efficient reduces set size by 0.0931 labels with a 95\% dataset-block confidence interval of [0.0646, 0.1236]; 32 of 35 datasets have a positive average set-size reduction. The corresponding dataset-block coverage delta is -0.0053 with interval [-0.0086, -0.0025], while the absolute-gap delta interval [-0.0029, 0.0006] overlaps zero. Cell-level paired tests lead to the same qualitative conclusion, but we treat them as supporting evidence rather than the main statistical claim.
+
+Against APS and RAPS, \fastcp{}-efficient produces much smaller sets, but with larger coverage drops; these baselines are more conservative on this benchmark. Against the corruption-family Mondrian baseline, \fastcp{}-efficient has smaller sets overall but worse coverage and absolute-gap behavior under gap and noise. This comparison makes the tradeoff explicit: the method is efficient, but not uniformly dominant.
 
 \subsection{Fingerprint ablations}
 
@@ -223,4 +247,4 @@ Full fingerprint & 0.9448 & 2.3254 & 0.0455 & 0.0931 \\
 \end{tabular}
 \end{table}
 
-\Cref{tab:fingerprint_variants} clarifies the role of the fingerprint. The gain of \fastcp{} comes from two sources: local-threshold variability induced by the mixed conformal family, and meaningful perturbation-aware weighting. The random-fingerprint control shows that the threshold family itself can reduce set size, whereas the confidence-only and input-only variants reveal different risk-efficiency regimes. Input-only descriptors are aggressive, reducing set size by 0.1365 labels but lowering mean coverage to 0.9387. Confidence-only weighting is safer, with mean coverage 0.9494 and the smallest undercoverage tail, but it gives only a 0.0263-label set-size reduction. The full fingerprint is not coverage-dominant, but it provides a middle-ground tradeoff: larger efficiency gain than confidence-only weighting and less coverage degradation than input-only descriptors.
+\Cref{tab:fingerprint_variants} clarifies the role of the fingerprint. The gain of \fastcp{} comes from two sources: local-threshold variability induced by the mixed conformal family, and meaningful perturbation-aware weighting. The random-fingerprint control shows that the threshold family itself can reduce set size, but its 0.0504-label reduction is substantially smaller than the 0.0931-label reduction from the full fingerprint and comes with worse absolute coverage gap. Confidence-only weighting is safer, with mean coverage 0.9494 and the smallest undercoverage tail, but it gives only a 0.0263-label set-size reduction, so it behaves more like a conservative confidence-adaptive baseline than an efficiency-oriented setting. Input-only descriptors are aggressive, reducing set size by 0.1365 labels but lowering mean coverage to 0.9387. The full fingerprint is therefore not included because it dominates every alternative on every metric; it is included because it uses input perturbation descriptors to recover much of the input-only efficiency while using confidence and margin to temper the largest coverage loss. This balanced operating regime is the practical reason to prefer the full fingerprint when smaller sets are desired but the input-only variant is too aggressive and the confidence-only variant is too close to the global fallback.

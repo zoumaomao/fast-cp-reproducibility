@@ -1,0 +1,43 @@
+{
+  "datasets": [
+    "ArrowHead",
+    "CBF",
+    "CricketX",
+    "Earthquakes",
+    "FaceAll",
+    "Fish",
+    "GunPointAgeSpan",
+    "Ham",
+    "MedicalImages",
+    "MiddlePhalanxTW"
+  ],
+  "seeds": [
+    0,
+    1,
+    2
+  ],
+  "corruptions": [
+    "gap",
+    "noise",
+    "drift",
+    "mixed"
+  ],
+  "calib_corruptions": [
+    "gap",
+    "noise"
+  ],
+  "test_corruptions": [
+    "drift",
+    "mixed"
+  ],
+  "alphas": [
+    0.05
+  ],
+  "backbone": "randomconv",
+  "n_kernels": 64,
+  "minirocket_kernels": 2048,
+  "elapsed_sec": 451.832,
+  "rows": 1980,
+  "result_path": "results/mismatch_gap_noise_calib_drift_mixed_test_10ds_3seed_alpha005/fastcp_results.csv",
+  "errors_path": null
+}

@@ -35,6 +35,7 @@ CORRUPTION_LEVELS = {
     "gap": [0.05, 0.10, 0.20],
     "noise": [0.05, 0.10, 0.20],
     "drift": [0.10, 0.20, 0.40],
+    "mixed": [0.05, 0.10, 0.20],
     "warp": [0.25, 0.50, 0.80],
 }
 
@@ -44,6 +45,8 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--datasets", nargs="+", default=["ECG200", "GunPoint", "ItalyPowerDemand", "TwoLeadECG", "Coffee"])
     parser.add_argument("--seeds", nargs="+", type=int, default=[0])
     parser.add_argument("--corruptions", nargs="+", default=["gap", "noise", "drift"])
+    parser.add_argument("--calib-corruptions", nargs="+", default=None)
+    parser.add_argument("--test-corruptions", nargs="+", default=None)
     parser.add_argument("--alphas", nargs="+", type=float, default=[0.10, 0.05])
     parser.add_argument("--n-kernels", type=int, default=192)
     parser.add_argument("--backbone", choices=["randomconv", "minirocket"], default="randomconv")
@@ -81,6 +84,8 @@ def main() -> None:
     out_dir.mkdir(parents=True, exist_ok=True)
     rows = []
     started = time.time()
+    args.calib_corruptions = args.calib_corruptions or args.corruptions
+    args.test_corruptions = args.test_corruptions or args.corruptions
 
     for dataset in tqdm(args.datasets, desc="datasets"):
         try:
@@ -103,6 +108,8 @@ def main() -> None:
         "datasets": args.datasets,
         "seeds": args.seeds,
         "corruptions": args.corruptions,
+        "calib_corruptions": args.calib_corruptions,
+        "test_corruptions": args.test_corruptions,
         "alphas": args.alphas,
         "backbone": args.backbone,
         "n_kernels": args.n_kernels,
@@ -141,7 +148,7 @@ def run_one_dataset(
     clean_calib_scores = inverse_probability_scores(clean_calib_probs, y_calib)
     clean_calib_fp = perturbation_fingerprint(x_calib, clean_calib_probs)
 
-    aug_x, aug_y, aug_groups = build_augmented_calibration(x_calib, y_calib, args.corruptions, seed)
+    aug_x, aug_y, aug_groups = build_augmented_calibration(x_calib, y_calib, args.calib_corruptions, seed)
     aug_probs = model.predict_proba(transform_backbone(featurizer, aug_x))
     aug_scores = inverse_probability_scores(aug_probs, aug_y)
     aug_aps_scores = aps_scores(aug_probs, aug_y)
@@ -151,7 +158,7 @@ def run_one_dataset(
     global_mixes = args.fastcp_global_mixes if args.fastcp_global_mixes is not None else [args.fastcp_global_mix]
 
     rows: list[dict[str, object]] = []
-    for corruption in args.corruptions:
+    for corruption in args.test_corruptions:
         for severity in CORRUPTION_LEVELS[corruption]:
             local_rng = np.random.default_rng(seed + stable_offset(dataset, corruption, severity))
             x_eval_raw = corrupt_batch(x_test, corruption, severity, local_rng)
