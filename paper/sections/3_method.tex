@@ -26,7 +26,7 @@ When comparing two methods, an absolute-gap delta is the candidate method's abso
 
 \fastcp{} represents each time series by a fingerprint $\phifp(x)$ designed to be cheap to compute and interpretable. The current implementation uses missingness, local variation, spectral entropy, lag-one autocorrelation, amplitude drift, peak-to-standard-deviation ratio, top-class confidence, and logit margin. These features are not meant to be a learned representation of the label; they summarize how the input looks from a calibration-risk perspective.
 
-We also use augmented calibration data. For each calibration series, we generate corrupted variants using the same corruption families as evaluation: missing segments, additive sensor noise, and amplitude drift. The classifier is not retrained on these variants; they are used only to populate the calibration score and fingerprint pool.
+We also use augmented calibration data. In the main matched benchmark, each calibration series is augmented using the same corruption families as evaluation: missing segments, additive sensor noise, and amplitude drift. In the mismatched-corruption stress test, the calibration augmentation menu is intentionally restricted. The classifier is not retrained on these variants; they are used only to populate the calibration score and fingerprint pool.
 
 \subsection{Local weighted conformal threshold}
 
